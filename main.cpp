@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
   assert(do_main( { "is_prime", "17" } ) == 0);
   assert(do_main( { "is_prime", "nonsense" } ) == 1);
   assert(do_main( { "is_prime", "7", "42" } ) == 1);
+  assert(do_main( { "is_prime", "2" } ) == 0);
+  assert(do_main( { "is_prime", "-10" } ) == 0);
 
   const std::vector<std::string> args(argv, argv + argc);
   return do_main(args);
