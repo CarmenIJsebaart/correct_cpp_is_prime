@@ -1,13 +1,14 @@
-
-#include <string>
+#include <cassert>
 #include <iostream>
+#include <string>
+#include <vector>
 
-int main(int argc, char* argv[]) 
+int do_main(const std::vector<std::string>& args)
 {
-  if (argc != 2) return 1;
+  if (args.size() != 2) return 1;
   try
   {
-    const int i{std::stoi(argv[1])};
+    const int i{std::stoi(args[1])};
     if (i < 2)
     {
       std::cout << "false\n"; return 0;
@@ -30,4 +31,17 @@ int main(int argc, char* argv[])
   {
     return 1;
   }
+  return 0;
+}
+
+int main(int argc, char* argv[]) 
+{
+  assert(do_main( { "is_prime" } ) == 1);
+  assert(do_main( { "is_prime", "6" } ) == 0);
+  assert(do_main( { "is_prime", "17" } ) == 0);
+  assert(do_main( { "is_prime", "nonsense" } ) == 1);
+  assert(do_main( { "is_prime", "7", "42" } ) == 1);
+
+  const std::vector<std::string> args(argv, argv + argc);
+  return do_main(args);
 }
