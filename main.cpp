@@ -8,7 +8,7 @@ int do_main(const std::vector<std::string>& args)
   if (args.size() != 2) return 1;
   try
   {
-    const int i{std::stoi(args[1])};
+    const int i = std::stoi(args[1]);
     if (i < 2)
     {
       std::cout << "false\n"; return 0;
