@@ -9,7 +9,7 @@ int do_main(const std::vector<std::string>& args)
   if (args.size() != 2) return 1;
   try
   {
-    const int value{std::stoi(argv[1])};
+    const int value{std::stoi(args[1])};
     // -1: unknown
     //  0: false
     //  1: true
