@@ -32,6 +32,7 @@ Call to `is_prime`|Output|Exit status
 In this exercise, you start with the code below. Yes, that code works perfectly. 
 
 ```c++
+#include <cassert>
 #include <string>
 #include <iostream>
 
@@ -40,32 +41,50 @@ int main(int argc, char* argv[])
   if (argc != 2) return 1;
   try
   {
-    const int i{std::stoi(argv[1])};
-    if (i < 2)
+    const int value{std::stoi(argv[1])};
+    // -1: unknown
+    //  0: false
+    //  1: true
+    int is_prime = -1;
+
+    //Trivial cases
+    if (value < 2) is_prime = 0;
+    if (is_prime == -1 && value == 2) is_prime = 1;
+
+    //Complex cases
+    for (int denominator=2; denominator!=value-1; ++denominator)
     {
-      std::cout << "false\n"; return 0;
-    }
-    if (i == 2)
-    {
-      std::cout << "true\n"; return 0;
-    }
-    for (int j=2; j!=i-1; ++j)
-    {
-      if (i % j == 0)
+      if (is_prime != -1) break;
+      if (value % denominator == 0)
       {
-        std::cout << "false\n";
-        return 0;
+        is_prime = 0;
       }
     }
-    std::cout << "true\n";
+    if (is_prime == -1) is_prime = 1;
+
+    //Display the result
+    assert(is_prime != -1); //Must be known now
+    if (is_prime == 0)
+    {
+      std::cout << "false\n";
+    }
+    else
+    {
+      std::cout << "true\n";
+    }
   }
-  catch (const std::exception&)
+  catch (const std::invalid_argument&)
+  {
+    return 1;
+  }
+  catch (const std::out_of_range&)
   {
     return 1;
   }
 }
 ```
 
+ * You may start from scratch if you think that is simpler
  * The code has a too high cyclomatic complexity. Simplify it. See [how to lower cyclomatic complexity](https://github.com/richelbilderbeek/correct_cpp/blob/master/lower_cyclomatic_complexity.md). 
    Tips:
      * put the content of the `main` function in a seperate function, e.g. `do_main`

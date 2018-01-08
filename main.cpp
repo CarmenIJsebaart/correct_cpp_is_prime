@@ -1,4 +1,5 @@
 #include <cassert>
+#include <string>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,26 +9,43 @@ int do_main(const std::vector<std::string>& args)
   if (args.size() != 2) return 1;
   try
   {
-    const int i = std::stoi(args[1]);
-    if (i < 2)
+    const int value{std::stoi(argv[1])};
+    // -1: unknown
+    //  0: false
+    //  1: true
+    int is_prime = -1;
+
+    //Trivial cases
+    if (value < 2) is_prime = 0;
+    if (is_prime == -1 && value == 2) is_prime = 1;
+
+    //Complex cases
+    for (int denominator=2; denominator!=value-1; ++denominator)
     {
-      std::cout << "false\n"; return 0;
-    }
-    if (i == 2)
-    {
-      std::cout << "true\n"; return 0;
-    }
-    for (int j=2; j!=i-1; ++j)
-    {
-      if (i % j == 0)
+      if (is_prime != -1) break;
+      if (value % denominator == 0)
       {
-        std::cout << "false\n";
-        return 0;
+        is_prime = 0;
       }
     }
-    std::cout << "true\n";
+    if (is_prime == -1) is_prime = 1;
+
+    //Display the result
+    assert(is_prime != -1); //Must be known now
+    if (is_prime == 0)
+    {
+      std::cout << "false\n";
+    }
+    else
+    {
+      std::cout << "true\n";
+    }
   }
-  catch (const std::exception&)
+  catch (const std::invalid_argument&)
+  {
+    return 1;
+  }
+  catch (const std::out_of_range&)
   {
     return 1;
   }
