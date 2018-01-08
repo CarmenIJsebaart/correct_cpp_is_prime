@@ -9,18 +9,18 @@ int do_main(const std::vector<std::string>& args)
   if (args.size() != 2) return 1;
   try
   {
-    const int i = std::stoi(args[1]);
-    if (i < 2)
+    const int counter = std::stoi(args[1]);
+    if (counter < 2)
     {
       std::cout << "false\n"; return 0;
     }
-    if (i == 2)
+    if (counter == 2)
     {
       std::cout << "true\n"; return 0;
     }
-    for (int j=2; j!=i-1; ++j)
+    for (int j=2; j!=counter-1; ++j)
     {
-      if (i % j == 0)
+      if (counter % j == 0)
       {
         std::cout << "false\n";
         return 0;
